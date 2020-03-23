@@ -2,6 +2,7 @@
   "name": "react-ssr-poc",
   "version": "1.0.0",
   "description": "react js ssr poc",
+  "homepage": "https://priyavratshukla.github.io/react-ssr-poc/",
   "main": "webpack.config.js",
   "scripts": {
     "build": "NODE_ENV=production webpack --progress",
@@ -9,7 +10,9 @@
     "server": "nodemon index.js",
     "client": "webpack --watch --progress",
     "linter": "eslint src",
-    "precommit": "eslint src --quiet"
+    "precommit": "eslint src --quiet",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "dependencies": {
     "isomorphic-fetch": "^2.2.1",
