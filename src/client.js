@@ -10,21 +10,6 @@ import "./App.css";
 
 const store = createStore( window.REDUX_DATA );
 
-function set_state(campgrounds) {
-  store.dispatch ({
-  type: 'SET_STATE',
-  state: {
-    filters: [
-      {id: 'shower', inuse: false },
-      {id: 'pets', inuse: false },
-      {id: 'flush', inuse: false },
-      {id: 'water', inuse: false }
-    ],
-    markers: campgrounds,
-    campgrounds: campgrounds
-  }
- })
-}
 
 const jsx = (
     <ReduxProvider store={ store }>

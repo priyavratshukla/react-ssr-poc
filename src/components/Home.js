@@ -1,6 +1,7 @@
 import React, { Component }  from "react";
 import { connect } from "react-redux";
 import { fetchData, content, filters } from "../store";
+import SearchBar from './SearchBar';
 
 class Home extends Component {
   constructor(props) {
@@ -20,35 +21,57 @@ class Home extends Component {
     componentDidMount( ) {
         if ( this.props.apiData.length <= 0 ) {
           this.props.fetchData( );
-        }
-    }
+        }  
+    }    
 
     onFilter(event) {
       this.setState({
         [event.target.name] : event.target.checked
       });
-      // var filterLabel = [];
-      // var filterSpan, fiterWrapper, parentDiv,labelData;
-      // labelData = event.target.name + '  X';
-      //
-      // fiterWrapper = document.getElementById('result-wrapper');
-      // parentDiv = fiterWrapper.parentNode;
-      // if(event.target.checked === true){
-      //    filterSpan = document.createElement("span");
-      //    filterSpan.innerHTML = labelData;
-      //    filterSpan.classList.add("filterSpan");
-      //    filterLabel.push(filterSpan);
-      //    parentDiv.insertBefore(filterSpan, fiterWrapper);
-      // }
-      // if(event.target.checked === false){
-      //   if(filterLabel.indexOf(event.target.name) !== -1){
-      //     filterLabel.splice(this, 1);
-      //     filterSpan.fiterWrapper.removeChild(filterSpan);
+      let filterTypes = document.querySelectorAll(".filter-box input[type='checkbox']");
+      let filterLabel = [];
+      let filterSpan, fiterWrapper, parentDiv, labelData, fiterAtt, lists, listArr, selectedFilter, filterHeading;
+      labelData = event.target.name;
+      lists = document.querySelectorAll(".filterSpan");
+      listArr = Array.prototype.slice.call(lists);
+      fiterWrapper = document.getElementById('result-wrapper');
+      parentDiv = fiterWrapper.parentNode;
+      selectedFilter = document.getElementsByClassName('filterSpan');
+      if(event.target.checked === true){
+        filterSpan = document.createElement("span");
+        filterSpan.innerHTML = labelData;
+        filterSpan.classList.add("filterSpan");
+        filterLabel.push(filterSpan);
+        parentDiv.insertBefore(filterSpan, fiterWrapper);
+        for(let i = 0; i < selectedFilter.length; i++) {
+          selectedFilter[i].addEventListener("click", function(event) {
+            filterTypes.forEach(function(list, index) {
+              if(list.name === event.target.innerText && list.checked === true){
+                list.checked = false;
+                event.target.remove();
+              }
+            })
+          })
+        } 
+      }else{
+        listArr.forEach(function(list, index) {
+          if(list.innerText.includes(event.target.name)){
+            list.remove();
+          }
+        })
+      }
+      //console.log('selectedFilter count==', selectedFilter.length);
+
+      // if(selectedFilter.length === 1){
+      //   if(document.getElementsByClassName('filterHeading').length === 0){
+      //     filterHeading = document.createElement("h3");
+      //     filterHeading.innerHTML = "Selected Filters";
+      //     filterHeading.classList.add("filterHeading");
+      //     parentDiv.insertBefore(filterHeading, filterSpan);
       //   }
       // }
 
 
-      let filterTypes = document.querySelectorAll(".filter-box input[type='checkbox']");
       let filters = {
         filterParam: this.getFilteredArr(filterTypes)
       };
